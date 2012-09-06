@@ -10,8 +10,8 @@
     <version>1.0.0-BUILD-SNAPSHOT</version>
 
     <properties>
-        <gae.home>/Users/doron/.m2/repository/com/google/appengine/appengine-java-sdk/1.7.0/appengine-java-sdk-1.7.0</gae.home>
-        <gaeApplicationName>doronsampleapp</gaeApplicationName>
+        <gae.home>C:\projects\wix-yelp\appengine-java-sdk-1.7.1</gae.home>
+        <gaeApplicationName>sdktestapp</gaeApplicationName>
         <gaePluginVersion>0.9.4</gaePluginVersion>
         <gae.version>1.7.0</gae.version>
 

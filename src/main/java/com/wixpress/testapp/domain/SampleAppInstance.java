@@ -13,7 +13,7 @@ import java.util.UUID;
 @JsonTypeName("SampleAppInstance")
 public class SampleAppInstance {
 
-    private String title = "My App";
+    private String version = "1.11.0";
     private String color = "lavender";
     private Integer height = 500;
 
@@ -58,12 +58,12 @@ public class SampleAppInstance {
         this.width = width;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSDKVersion() {
+        return version;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSDKVersion(String version) {
+        this.version = version;
     }
 
     public String getColor() {
@@ -108,6 +108,6 @@ public class SampleAppInstance {
 
     public void update(String color, String title) {
         this.color = color;
-        this.title = title;
+        this.version = title;
     }
 }
