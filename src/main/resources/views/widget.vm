@@ -53,10 +53,14 @@
             <hr/>
             <div class="row-fluid">
                 <div class="pull-left">refreshApp</div>
-                <div class="pull-right" id="isLoggedIn"></div>
+                <button class="btn pull-right" id="runA">Run</button>
+            </div>
+            <div class="row-fluid">
+                <div class="pull-left">openPopUp</div>
+                <button class="btn pull-right" id="runB">Run</button>
             </div>
         </div>
-        <button class="btn pull-right" id="run">Run</button>
+
     </div>
 
     <script type="text/javascript">
