@@ -49,7 +49,7 @@ $(document).ready(function() {
     
     $("#runC").click(function() {
         if (isScriptLoaded()) {
-            Wix.getSiteInfo(function(data){$("#result").text(data)});
+            Wix.getSiteInfo(function(data){$("#result").text(JSON.stringify(data))});
         }
     });
     
