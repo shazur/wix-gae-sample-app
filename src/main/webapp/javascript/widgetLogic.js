@@ -12,6 +12,18 @@ function isScriptLoaded() {
     return true;
 }
 
+function addFunctionToContainer(func) {   
+    var functionSection = '<hr/>' +
+        '<div class="row-fluid">' +
+            '<div id="funcName" class="pull-left">' + func + '</div>' +
+            '<button id="runButton" class="btn pull-right">Run</button>'
+            '<div id="result" class="hidden"></div>' +
+        '</div>' +
+    '<hr/>'
+    
+    $("#functionsContainer").append(functionSection);
+}
+
 
 $(document).ready(function() {
     
@@ -31,11 +43,26 @@ $(document).ready(function() {
             $("#version").addClass("hidden");
             $("#resultContent").text("Script " + scriptUrl + " was loaded");
         });
+                                    
+    });
+    
+    $("#showFunctions").click(function() {
+        var sdkFunctions = getAllMethods();
+        sdkFunctions.forEach(function(func){
+            addFunctionToContainer(func);
+        });           
+    });
+      
+    $("#runButton").click(function() {
+        if (isScriptLoaded()) {
+            var funcName = $("#funcName");
+            var parameters = getFuncParameters(funcName);
+            Wix.funcName(parameters);
+        }
     });
     
     $("#runA").click(function() {
-        //var sdkFunctions = getAllMethods();
-        //sdkFunctions.forEach(function(func){});       
+        
         if (isScriptLoaded()) {
             Wix.refreshApp();       
         }
