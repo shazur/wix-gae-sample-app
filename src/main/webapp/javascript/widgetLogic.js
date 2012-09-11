@@ -51,7 +51,7 @@ $(document).ready(function() {
     $("#runC").click(function() {
         if (isScriptLoaded()) {
             Wix.getSiteInfo(function(data){
-                $("#result").html("<pre>" + JSON.stringify({a:1, b:2}, null, '  ') + "</pre>");
+                $("#result").html("<pre>" + JSON.stringify(data, null, '  ') + "</pre>");
             });
         }
     });
