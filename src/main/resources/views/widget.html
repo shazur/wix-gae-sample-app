@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>SDK Test Application</title>
+    <title>Wix API Test Application</title>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <link href="//current.bootstrapcdn.com/bootstrap-v204/css/bootstrap.min.css" rel="stylesheet">
     <link href="//current.bootstrapcdn.com/bootstrap-v204/css/bootstrap-responsive.min.css" rel="stylesheet">   
@@ -11,17 +11,18 @@
 <body>
 <div class="container-fluid" >
     <div id="appTitle" class="row-fluid">
-         <h3>SDK Test Application</h3>
-        <div class="hero-unit" style="background-color:lavender; width:500px">
-        <input id="version">Enter SDK version</input>     
+         <h3>API Test Application</h3>
+        <div class="hero-unit" style="background-color:lavender">
+        <div id="versionText" style="font-weight:bold">Enter API version</div></br>
         <button id="changeVersion" class="hidden btn pull-right">Change Version</button>
+        <input id="version" ></input>     
     </div>
 </div>
 
     <div class="container-fluid thumbnail"
          style="margin-bottom:20px; padding:20px; box-shadow:#ccc 0 0 15px lavender">
         <div class="span4" id="smContainer">
-            <h6>SDK functions</h6>
+            <h6>API functions</h6>
             <hr/>
             <div class="row-fluid">
                 <div class="pull-left">refreshApp</div>
