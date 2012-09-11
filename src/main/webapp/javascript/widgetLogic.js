@@ -20,8 +20,9 @@ $(document).ready(function() {
             $("#result").addClass("hidden");
         }
         var versionNumber = $(ev.target).val();
+        var scriptUrl;
         if (versionNumber == 'latest') {
-            var scriptUrl = "../../webapp/javascript/Wix.js";
+            scriptUrl = "../../webapp/javascript/Wix.js";
         }
         else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
         $.getScript(scriptUrl, function() {                     
@@ -51,7 +52,8 @@ $(document).ready(function() {
         if (isScriptLoaded()) {
             Wix.getSiteInfo(function(data){
                 var parsedData = JSON.parse(data);
-                $("#result").text(JSON.stringify(parsedData, null, '\t'))});
+                $("#result").text(JSON.stringify(parsedData, null, '\t'));
+            });
         }
     });
     
