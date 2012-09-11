@@ -27,7 +27,7 @@ $(document).ready(function() {
         else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
         $.getScript(scriptUrl, function() {                     
             $("#changeVersion").removeClass("hidden");                    
-            $("#versionText").text("API Version: " + versionNumber);
+            $("#versionText").text("SDK Version: " + versionNumber);
             $("#version").addClass("hidden");
             $("#result").text("Script " + scriptUrl + " was loaded");
         });
@@ -51,7 +51,6 @@ $(document).ready(function() {
     $("#runC").click(function() {
         if (isScriptLoaded()) {
             Wix.getSiteInfo(function(data){
-                var parsedData = JSON.parse(data);
                 $("#result").text(JSON.stringify(parsedData, null, '\t'));
             });
         }
