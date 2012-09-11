@@ -49,7 +49,9 @@ $(document).ready(function() {
     
     $("#runC").click(function() {
         if (isScriptLoaded()) {
-            Wix.getSiteInfo(function(data){$("#result").text(JSON.stringify(data, null, '\t'))});
+            Wix.getSiteInfo(function(data){
+                var parsedData = JSON.parse(data);
+                $("#result").text(JSON.stringify(parsedData, null, '\t'))});
         }
     });
     
