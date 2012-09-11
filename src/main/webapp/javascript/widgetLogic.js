@@ -6,7 +6,7 @@ function getAllMethods() {
 
 function isScriptLoaded() {
    if (!window['Wix']) {
-        $("#result").text("Please choose API version first!");
+        $("#resultContent").text("Please choose API version first!");
         return false;
     }
     return true;
@@ -16,8 +16,8 @@ function isScriptLoaded() {
 $(document).ready(function() {
     
     $("#version").change(function(ev) {
-        if ($("#result").is(":visible")) {
-            $("#result").addClass("hidden");
+        if ($("#resultContent").is(":visible")) {
+            $("#resultContent").addClass("hidden");
         }
         var versionNumber = $(ev.target).val();
         var scriptUrl;
@@ -29,7 +29,7 @@ $(document).ready(function() {
             $("#changeVersion").removeClass("hidden");                    
             $("#versionText").text("SDK Version: " + versionNumber);
             $("#version").addClass("hidden");
-            $("#result").text("Script " + scriptUrl + " was loaded");
+            $("#resultContent").text("Script " + scriptUrl + " was loaded");
         });
     });
     
@@ -51,7 +51,7 @@ $(document).ready(function() {
     $("#runC").click(function() {
         if (isScriptLoaded()) {
             Wix.getSiteInfo(function(data){
-                $("#result").html("<pre>" + JSON.stringify(data, null, '  ') + "</pre>");
+                $("#resultContent").html("<pre>" + JSON.stringify(data, null, '  ') + "</pre>");
             });
         }
     });
