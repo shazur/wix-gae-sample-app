@@ -16,7 +16,7 @@ function addFunctionToContainer(func) {
     var functionSection = '<hr/>' +
         '<div class="row-fluid">' +
             '<div id="funcName" class="pull-left">' + func + '</div>' +
-            '<button id="run"' + func + 'class="btn pull-right">Run</button>'
+            '<button id="run' + func + '"' + 'class="btn pull-right">Run</button>'
             '<div id="result" class="hidden"></div>' +
         '</div>' +
     '<hr/>'
@@ -51,15 +51,27 @@ $(document).ready(function() {
         sdkFunctions.forEach(function(func){
             addFunctionToContainer(func);
         });           
+        addListenersToRunButtons(sdkFunctions);
     });
-      
-    $("#run").click(function() {
-        if (isScriptLoaded()) {
-            var funcName = $("#funcName");
-            var parameters = getFuncParameters(funcName);
-            Wix.funcName(parameters);
-        }
-    });
+    
+    function getFuncParameters(funcName) {
+        return null;
+    }
+    
+    
+    function addListenersToRunButtons(functions) {
+        functions.forEach(function(func) {
+            $("#run"+func).click({funcName: func}, function(event) {
+                if (isScriptLoaded()) {
+                    var funcName = event.data.funcName;
+                    var parameters = getFuncParameters(funcName);
+                    Wix[funcName](parameters);
+                }
+            });
+            
+        });
+    }
+
     
     $("#runA").click(function() {
         
