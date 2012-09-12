@@ -16,12 +16,12 @@ function addFunctionToContainer(func) {
     var functionSection = '<hr/>' +
         '<div class="row-fluid">' +
             '<div id="funcName" class="pull-left">' + func + '</div>' +
-            '<button id="runButton" class="btn pull-right">Run</button>'
+            '<button id="run"' + func + 'class="btn pull-right">Run</button>'
             '<div id="result" class="hidden"></div>' +
         '</div>' +
     '<hr/>'
     
-    $("#functionsContainer").append(functionSection);
+    $("#functionsContainer").attr('style', "overflow-y:scroll").append(functionSection);
 }
 
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
         });           
     });
       
-    $("#runButton").click(function() {
+    $("#run").click(function() {
         if (isScriptLoaded()) {
             var funcName = $("#funcName");
             var parameters = getFuncParameters(funcName);
