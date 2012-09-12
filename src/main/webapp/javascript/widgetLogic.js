@@ -21,7 +21,7 @@ function addFunctionToContainer(func) {
         '</div>' +
     '<hr/>'
     
-    $("#functionsContainer").attr('style', "overflow-y:scroll").append(functionSection);
+    $("#functionsContainer").append(functionSection);
 }
 
 
