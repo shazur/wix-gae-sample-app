@@ -73,7 +73,9 @@ $(document).ready(function() {
                         var parameters = getFuncParameters(funcName);
                         var parameterValues = [];
                         for (var i=0; i<parameters.length; i++) {
-                             parameterValues[i] = parametersValueMap[funcName][parameters[i]];
+                            if (parametersValueMap[funcName] && parametersValueMap[funcName][parameters[i]]) {
+                                parameterValues[i] = parametersValueMap[funcName][parameters[i]];
+                            }
                         }
                         Wix[funcName].apply(Wix, parameterValues);                        
                     }
