@@ -27,14 +27,30 @@
 
 
 /* Customize your modal window here, you can add background image too */
-#boxes #dialog {
-    width:375px; 
-    height:203px;
+#boxes #dialog{
+    width:450px; 
+    height:400px;
 }
 </style>
 </head>
 
 <body>
+
+<!-- #dialog is the id of a DIV defined in the code below -->
+<div id="#dialog" name="modal"></div>
+<div id="boxes">
+    <!-- #customize your modal window here -->
+    <div id="dialog" class="window">
+        <div id="popupTitle"></div>
+         <a href="#" class="close pull-right">X</a>
+        <div id="paramsContainer" class="span4" style="padding:20px; overflow-y:scroll"></div>       
+        <button id="save" class="btn">Save parameters</div>
+        <!-- close button is defined as close class -->
+    </div>
+    <!-- Do not remove div#mask, because you'll need it to fill the whole screen -->
+    <div id="mask"></div>
+</div>
+
 </br><div class="container-fluid" >
     <!--<div id="appTitle" class="row-fluid">-->
          <h3>API Test Application</h3>
@@ -69,18 +85,6 @@
     </div>
 </div>
 
-<!-- #dialog is the id of a DIV defined in the code below -->
-<div id="#dialog" name="modal"></div>
-<div id="boxes">
-    <!-- #customize your modal window here -->
-    <div id="dialog" class="window">
-        <b>Testing of Modal Window</b> | 
-        <!-- close button is defined as close class -->
-        <a href="#" class="close">Close it</a>
-    </div>
-    <!-- Do not remove div#mask, because you'll need it to fill the whole screen --> 
-    <div id="mask"></div>
-</div>
 
 </body>
 

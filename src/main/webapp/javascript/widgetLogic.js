@@ -66,9 +66,24 @@
                     '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>'
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
-            '<hr/>'
+            '<hr/>'                        
             
             $("#functionsContainer").append(functionSection);
+            if (!getFuncParameters(func)) { //or params are already saved
+                $("#enterParamsTo" + func).addClass("hidden");
+                $("#run" + func).removeClass("hidden");
+            }
+        }
+        
+        function addParameterToContainer(param) {
+                  var parameterSection = '<hr/>' +
+                '<div class="row-fluid">' +
+                    '<div id="funcName" class="pull-left">' + param + '</div>' +
+                    '<input id="valueOf' + param + '"' + 'class="pull-right"></input>' +                                     
+                '</div>' +
+            '<hr/>'
+            
+            $("#paramsContainer").append(parameterSection);
         }
         
         function addListenersToRunButtons(functions) {
@@ -78,15 +93,17 @@
                             var funcName = event.data.funcName;
                             var parameters = getFuncParameters(funcName);
                             var parameterValues = [];
-                            for (var i=0; i<parameters.length; i++) {
-                                if (true) {
-                                    //get parameters from local storage
-                                    var localStorageParams = localStorage.get('paramateres');
-                                    parameterValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
-                                } else {                            
-                                    //get default parameters
-                                    if (parametersValueMap[funcName] && parametersValueMap[funcName][parameters[i]]) {
-                                        parameterValues[i] = parametersValueMap[versionNumber][funcName][parameters[i]];
+                            if (parameters) {
+                                for (var i=0; i<parameters.length; i++) {
+                                    if (true) {
+                                        //get parameters from local storage
+                                        var localStorageParams = localStorage.get('paramateres');
+                                        parameterValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
+                                    } else {                            
+                                        //get default parameters
+                                        if (parametersValueMap[funcName] && parametersValueMap[funcName][parameters[i]]) {
+                                            parameterValues[i] = parametersValueMap[versionNumber][funcName][parameters[i]];
+                                        }
                                     }
                                 }
                             }
@@ -102,8 +119,6 @@
                     $("#enterParamsTo"+func).click({funcName: func}, function(event) {
                             //Cancel the link behavior
                             event.preventDefault();
-                            //Get the A tag
-                            var id = "#dialog";
                             
                             //Get the screen height and width
                             var maskHeight = $(document).height();
@@ -113,20 +128,28 @@
                             $('#mask').css({'width':maskWidth,'height':maskHeight});
                             
                             //transition effect 
-                            $('#mask').fadeIn(1000); 
-                            $('#mask').fadeTo("slow",0.8); 
+                            $('#mask').fadeIn(500); 
+                            $('#mask').fadeTo("fast",0.4); 
                             
                             //Get the window height and width
                             var winH = $(window).height();
                             var winW = $(window).width();
                             
+                            var id = "#dialog";
                             //Set the popup window to center
                             $(id).css('top', winH/2-$(id).height()/2);
                             $(id).css('left', winW/2-$(id).width()/2);
-                            $(id).css('background-color', 'lightgray');
+                            $(id).css('background-color', 'white');
+                            
+                            $('#popupTitle').text("Please enter " + func + " parameters");
+                             var parameterList = getFuncParameters(func);
+                                parameterList.forEach(function(param){
+                                    addParameterToContainer(param);
+                                });           
+                            
                             
                             //transition effect
-                            $(id).fadeIn(2000); 
+                            $(id).fadeIn(500); 
                             
                             });
                             
