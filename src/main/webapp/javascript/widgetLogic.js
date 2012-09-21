@@ -2,6 +2,7 @@
     
     $(document).ready(function() {
         
+        //Loading SDK version according to the user request
         $("#version").change(function(ev) {
             if ($("#resultContent").is(":visible")) {
                 $("#resultContent").addClass("hidden");
@@ -21,6 +22,13 @@
                                         
         });
         
+    
+        $("#changeVersion").click(function() {   
+             location.reload();
+        });               
+        
+            
+        //Display SDK functions (according to the version)
         $("#showFunctions").click(function() {
             var sdkFunctions = getAllMethods();
             sdkFunctions.forEach(function(func){
@@ -69,10 +77,19 @@
             '<hr/>'                        
             
             $("#functionsContainer").append(functionSection);
-            if (!getFuncParameters(func)) { //or params are already saved
+            //If the function doesn't have parameters or its parameters are already stored in the local storage, display run button only
+            if (!getFuncParameters(func) || areFuncParamsSavedInLS(func)) {
                 $("#enterParamsTo" + func).addClass("hidden");
                 $("#run" + func).removeClass("hidden");
             }
+        }
+        
+        function areFuncParamsSavedInLS(func) {
+            var data = JSON.parse(localStorage.getItem('parameters'));
+            if (data && data[versionNumber]) {
+                return !!data[versionNumber][func];
+            }
+            return false;            
         }
         
         function addParameterToContainer(param) {
@@ -97,7 +114,7 @@
                                 for (var i=0; i<parameters.length; i++) {
                                     if (true) {
                                         //get parameters from local storage
-                                        var localStorageParams = localStorage.get('paramateres');
+                                        var localStorageParams = JSON.parse(localStorage.getItem('parameters'));
                                         parameterValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
                                     } else {                            
                                         //get default parameters
@@ -107,6 +124,7 @@
                                     }
                                 }
                             }
+                            //I should covert parameterValues to the correct type (currently all are strings)
                             Wix[funcName].apply(Wix, parameterValues);                        
                         }
                     });
@@ -143,9 +161,28 @@
                             
                             $('#popupTitle').text("Please enter " + func + " parameters");
                              var parameterList = getFuncParameters(func);
+                               var data = {};
+                               data[versionNumber] = {};
+                               data[versionNumber][func] = {};
                                 parameterList.forEach(function(param){
-                                    addParameterToContainer(param);
+                                    addParameterToContainer(param);                                                                         
+                                    $("#valueOf" + param).change(function(event) {
+                                        var input = $(this).val();
+                                        if (typeof(input) == 'Object') {
+                                            input = JSON.parse(input);
+                                        }
+                                        data[versionNumber][func][param] = input;                                     
+                                    });
+                              
                                 });           
+                              $("#save").click(function() {
+                                addToLocalStorage(data);
+                                $("#run" + func).removeClass("hidden");
+                                $("#enterParamsTo" + func).addClass("hidden");                                                                 
+                                $('#mask, .window').hide();
+                               $("#paramsContainer").children().remove();                                
+                                });
+                            
                             
                             
                             //transition effect
@@ -158,12 +195,14 @@
                             //Cancel the link behavior
                             event.preventDefault();
                             $('#mask, .window').hide();
+                            $("#paramsContainer").children().remove();
                             }); 
                             
                             //if mask is clicked
                             $('#mask').click(function () {
                             $(this).hide();
                             $('.window').hide();
+                            $("#paramsContainer").children().remove();                                
                         }); 
                     });                        
         }
@@ -177,31 +216,5 @@
         }
         
         
-        $("#runA").click(function() {
-            
-            if (isScriptLoaded()) {
-                Wix.refreshApp();       
-            }
-        });
-        
-        $("#runB").click(function() {
-            if(isScriptLoaded()) {
-                Wix.openPopup("http://www.ynet.co.il", "fixed",
-                          {top: 40, left: 40, bottom: 'auto', right: 'auto', width: 300, height: 500});
-            }
-        });
-        
-        $("#runC").click(function() {
-            if (isScriptLoaded()) {
-                Wix.getSiteInfo(function(data){
-                    $("#resultContent").html("<pre>" + JSON.stringify(data, null, '  ') + "</pre>");
-                });
-            }
-        });
-        
-        
-        $("#changeVersion").click(function() {   
-             location.reload();
-        });               
-        
+ 
     });
