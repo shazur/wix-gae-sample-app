@@ -125,7 +125,10 @@
                                 }
                             }
                             //I should covert parameterValues to the correct type (currently all are strings)
-                            Wix[funcName].apply(Wix, parameterValues);                        
+                            var result = Wix[funcName].apply(Wix, parameterValues);                        
+                            if (result) {
+                                $("#resultContent").text(result.toString());
+                            }
                         }
                     });
                     
