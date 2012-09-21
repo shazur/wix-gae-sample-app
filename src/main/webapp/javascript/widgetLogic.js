@@ -211,7 +211,7 @@
         function addToLocalStorage(data){
             var oldData = localStorage.getItem('parameters');
             var oldDataJson = JSON.parse(oldData);
-            var newDataJson = jQuery.extend(oldDataJson, data);        
+            var newDataJson = jQuery.extend(true, oldDataJson, data);        
             localStorage.setItem('parameters', JSON.stringify(newDataJson));
         }
         
