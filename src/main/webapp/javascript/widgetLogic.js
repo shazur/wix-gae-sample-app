@@ -18,6 +18,7 @@
                 $("#versionText").text("SDK Version: " + versionNumber);
                 $("#version").addClass("hidden");
                 $("#resultContent").text("Script " + scriptUrl + " was loaded");
+                $("#sdkScript").attr("src", this.url);
             });
                                         
         });
@@ -92,7 +93,8 @@
                 '<div class="row-fluid">' +
                     '<div id="funcName" class="pull-left">' + func + '</div>' +
                     '<button id="enterParamsTo' + func + '"' + 'class="btn pull-right">Enter parameters</button>' +
-                    '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>'
+                    '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>' +
+                    '<button id="change' + func + '"' + 'class="btn pull-right hidden">Change</button>' +
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
             '<hr/>'                        
@@ -171,78 +173,89 @@
         function getFuncBody(func) {
             return func.substring(func.indexOf("{") + 1, func.lastIndexOf("}"));
         }
+        
+//        function addListenersToChangeButtons(functions) {
+//            functions.forEach(function(func) {
+//                $("#change" + func).click({funcName: func}, function(event) {
+//                    openParametersPopupAndSaveToLS(event, func);
+//                }
+//            }
+//        }
+        
             
         function addListenersToEnterParamsButtons(functions) {
             functions.forEach(function(func) {
                     $("#enterParamsTo"+func).click({funcName: func}, function(event) {
-                            //Cancel the link behavior
-                            event.preventDefault();
-                            
-                            //Get the screen height and width
-                            var maskHeight = $(document).height();
-                            var maskWidth = $(window).width();
-                            
-                            //Set height and width to mask to fill up the whole screen
-                            $('#mask').css({'width':maskWidth,'height':maskHeight});
-                            
-                            //transition effect 
-                            $('#mask').fadeIn(500); 
-                            $('#mask').fadeTo("fast",0.4); 
-                            
-                            //Get the window height and width
-                            var winH = $(window).height();
-                            var winW = $(window).width();
-                            
-                            var id = "#dialog";
-                            //Set the popup window to center
-                            $(id).css('top', winH/2-$(id).height()/2);
-                            $(id).css('left', winW/2-$(id).width()/2);
-                            $(id).css('background-color', 'white');
-                            
-                            $('#popupTitle').html("<b>"+func+"</b></br></br>Please enter parameter values");
-                             var parameterList = getFuncParameters(func);
-                               var data = {};
-                               data[versionNumber] = {};
-                               data[versionNumber][func] = {};
-                                parameterList.forEach(function(param){
-                                    addParameterToContainer(param);                                                                         
-                                    $("#valueOf" + param).change(function(event) {
-                                        var input = $(this).val();
-                                        if (typeof(input) == 'Object') {
-                                            input = JSON.parse(input);
-                                        }
-                                        data[versionNumber][func][param] = input;                                     
-                                    });
-                              
-                                });           
-                              $("#save").click(function() {
-                                addToLocalStorage(data);
-                                $("#run" + func).removeClass("hidden");
-                                $("#enterParamsTo" + func).addClass("hidden");                                                                 
-                                $('#mask, .window').hide();
-                               $("#paramsContainer").children().remove();                                
-                                });
-                            
-                            
-                            
-                            //transition effect
-                            $(id).fadeIn(500); 
-                            
-                            });
+//                        openParametersPopupAndSaveToLS(event, func);                                            
+ //Cancel the link behavior
+            event.preventDefault();
+            
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+            
+            //Set height and width to mask to fill up the whole screen
+            $('#mask').css({'width':maskWidth,'height':maskHeight});
+            
+            //transition effect 
+            $('#mask').fadeIn(500); 
+            $('#mask').fadeTo("fast",0.4); 
+            
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+            
+            var id = "#dialog";
+            //Set the popup window to center
+            $(id).css('top', winH/2-$(id).height()/2);
+            $(id).css('left', winW/2-$(id).width()/2);
+            $(id).css('background-color', 'white');
+            
+            $('#popupTitle').html("<b>"+func+"</b></br></br>Please enter parameter values");
+               var parameterList = getFuncParameters(func);
+               var data = {};
+               data[versionNumber] = {};
+               data[versionNumber][func] = {};
+               parameterList.forEach(function(param){
+                    addParameterToContainer(param);                                                                         
+                    $("#valueOf" + param).change(function(event) {
+                        var input = $(this).val();
+                        if (typeof(input) == 'Object') {
+                            input = JSON.parse(input);
+                        }
+                        data[versionNumber][func][param] = input;                                     
+                    });
+              
+                });  
+                
+            $("#save").click(function() {
+                addToLocalStorage(data);
+                $("#run" + func).removeClass("hidden");
+                $("#change" + func).removeClass("hidden");
+                $("#enterParamsTo" + func).addClass("hidden");                                                                 
+                $('#mask, .window').hide();
+               $("#paramsContainer").children().remove();                                
+            });
+            
+            
+            
+            //transition effect
+            $(id).fadeIn(500); 
+                        });
                             
                             //if close button is clicked
                             $('.window .close').click(function (e) {
                             //Cancel the link behavior
                             event.preventDefault();
-                            $('#mask, .window').hide();
-                            $("#paramsContainer").children().remove();
+                                $('#mask, .window').hide();
+                                $("#paramsContainer").children().remove();
                             }); 
                             
                             //if mask is clicked
                             $('#mask').click(function () {
-                            $(this).hide();
-                            $('.window').hide();
-                            $("#paramsContainer").children().remove();                                
+                                $(this).hide();
+                                $('.window').hide();
+                                $("#paramsContainer").children().remove();                                
                         }); 
                     });                        
         }
