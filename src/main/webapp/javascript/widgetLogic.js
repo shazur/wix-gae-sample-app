@@ -47,15 +47,36 @@
                     }
         }
         
-        function getAllMethods() {
-            return Object.getOwnPropertyNames(Wix).filter(function(property) {
+        function getAllMethods() {            
+            return getPropertyArray(Wix, []).filter(function(property) {
                 return typeof Wix[property] == 'function';
             });
+        }
+        
+        function getPropertyArray(object, propertyArray) {
+            var childArray = Object.getOwnPropertyNames(object);
+            var childObjectArray = childArray.filter(function(property) {
+                return typeof object[property] == 'object';
+            });      
+                                        
+            if (childObjectArray.length == 0){
+                return propertyArray.concat(childArray);
+            }
+            
+            var chilsNonObjectArray = childArray.filter(function(property) {
+                return typeof object[property] != 'object';
+            });
+            
+            propertyArray = propertyArray.concat(chilsNonObjectArray);
+            
+            for (var i=0; i<childObjectArray.length; i++) {
+                return getPropertyArray(object[childObjectArray[i]], propertyArray);                    
+            }                       
         }
     
         function getFuncParameters(funcName) {    
             var func = Wix[funcName].toString();
-            return func.slice(func.indexOf('(')+1, func.indexOf(')')).match(/([^\s,]+)/g);
+            return getParameters(func);
         }
         
         function isScriptLoaded() {
@@ -109,22 +130,26 @@
                         if (isScriptLoaded()) {
                             var funcName = event.data.funcName;
                             var parameters = getFuncParameters(funcName);
-                            var parameterValues = [];
+                            var parameterStringValues = [];
                             if (parameters) {
                                 for (var i=0; i<parameters.length; i++) {
                                     if (true) {
                                         //get parameters from local storage
                                         var localStorageParams = JSON.parse(localStorage.getItem('parameters'));
-                                        parameterValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
+                                        parameterStringValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
                                     } else {                            
                                         //get default parameters
                                         if (parametersValueMap[funcName] && parametersValueMap[funcName][parameters[i]]) {
-                                            parameterValues[i] = parametersValueMap[versionNumber][funcName][parameters[i]];
+                                            parameterStringValues[i] = parametersValueMap[versionNumber][funcName][parameters[i]];
                                         }
                                     }
                                 }
                             }
                             //I should covert parameterValues to the correct type (currently all are strings)
+                            var parameterValues = [];
+                            parameterStringValues.forEach(function(value) {
+                                parameterValues.push(createParameterValue(value));
+                            });
                             var result = Wix[funcName].apply(Wix, parameterValues);                        
                             if (result) {
                                 $("#resultContent").text(result.toString());
@@ -134,6 +159,18 @@
                     
                 });
             }
+            
+        function createParameterValue(value) {            
+            return (new Function('return '+ value +';'))();
+        }
+        
+        function getParameters(func) {
+            return func.slice(func.indexOf('(')+1, func.indexOf(')')).match(/([^\s,]+)/g);
+        }
+        
+        function getFuncBody(func) {
+            return func.substring(func.indexOf("{") + 1, func.lastIndexOf("}"));
+        }
             
         function addListenersToEnterParamsButtons(functions) {
             functions.forEach(function(func) {
