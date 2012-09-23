@@ -199,7 +199,7 @@
                             $(id).css('left', winW/2-$(id).width()/2);
                             $(id).css('background-color', 'white');
                             
-                            $('#popupTitle').text("Please enter " + func + " parameters");
+                            $('#popupTitle').html("<b>"+func+"</b></br></br>Please enter parameter values");
                              var parameterList = getFuncParameters(func);
                                var data = {};
                                data[versionNumber] = {};

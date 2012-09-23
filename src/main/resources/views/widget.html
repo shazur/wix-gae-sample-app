@@ -40,11 +40,13 @@
 <div id="#dialog" name="modal"></div>
 <div id="boxes">
     <!-- #customize your modal window here -->
-    <div id="dialog" class="window">
-        <div id="popupTitle"></div>
-         <a href="#" class="close pull-right">X</a>
-        <div id="paramsContainer" class="span4" style="padding:20px; overflow-y:scroll"></div>       
-        <button id="save" class="btn">Save parameters</div>
+    <div id="dialog" class="window" style="overflow:hidden">
+    <div style="overflow:hidden">
+        <div id="popupTitle" style="float:left"></div>
+         <a href="#" class="close pull-right" style="float:right">X</a>
+     </div></br>
+     <div id="paramsContainer" class="span4" style="max-height:300px; padding:20px; overflow-y:scroll"></div>       
+     <button id="save" class="btn">Save parameters</div>
         <!-- close button is defined as close class -->
     </div>
     <!-- Do not remove div#mask, because you'll need it to fill the whole screen -->
@@ -54,9 +56,11 @@
 </br><div class="container-fluid" >
     <!--<div id="appTitle" class="row-fluid">-->
          <h3>API Test Application</h3>
-        <div class="hero-unit" style="background-color:ghostwhite; box-shadow:#ccc 0 0 15px lavender">
-        <div id="versionText" style="font-weight:bold">Enter SDK version</div></br>
-        <button id="changeVersion" class="hidden btn pull-right">Change Version</button>
+        <div class="hero-unit" style="background-color:ghostwhite; box-shadow:#ccc 0 0 15px lavender; padding:35px">
+        <div style="overflow:hidden">
+            <div id="versionText" style="font-weight:bold; float:left">Enter SDK version</div>
+            <button id="changeVersion" class="hidden btn pull-right" style="float:right">Change Version</button>    
+        </div>
         <input id="version" ></input>     
     <!--</div>-->
 </div>
