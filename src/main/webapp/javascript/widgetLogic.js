@@ -37,6 +37,7 @@
             });           
             addListenersToRunButtons(sdkFunctions);
             addListenersToEnterParamsButtons(sdkFunctions);
+            addListenersToChangeButtons(sdkFunctions);
         });
         
         var parametersValueMap = {
@@ -76,12 +77,11 @@
         
               
         function addParameterToContainer(param) {
-                  var parameterSection = '<hr/>' +
-                '<div class="row-fluid">' +
+                  var parameterSection = '<div class="row-fluid">' +
                     '<div id="funcName" class="pull-left">' + param + '</div>' +
                     '<input id="valueOf' + param + '"' + 'class="pull-right"></input>' +                                     
-                '</div>' +
-            '<hr/>'
+                '</div></br>'
+            
             
             $("#paramsContainer").append(parameterSection);
         }
@@ -131,12 +131,8 @@
             });
         }
         
-            
-        function addListenersToEnterParamsButtons(functions) {
-            functions.forEach(function(func) {
-                    $("#enterParamsTo"+func).click({funcName: func}, function(event) {
-//                        openParametersPopupAndSaveToLS(event, func);                                            
-                     //Cancel the link behavior
+        function openParametersPopupAndSaveToLS(event, func) {
+                //Cancel the link behavior
                     event.preventDefault();
                     
                     //Get the screen height and width
@@ -193,6 +189,13 @@
                     
                     //transition effect
                     $(id).fadeIn(500); 
+        }
+        
+            
+        function addListenersToEnterParamsButtons(functions) {
+            functions.forEach(function(func) {
+                    $("#enterParamsTo"+func).click({funcName: func}, function(event) {
+                        openParametersPopupAndSaveToLS(event, func);                                                             
                 });
                             
                             //if close button is clicked
