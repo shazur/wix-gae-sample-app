@@ -4,24 +4,27 @@
         
         //Loading SDK version according to the user request
         $("#version").change(function(ev) {
-            if ($("#resultContent").is(":visible")) {
-                $("#resultContent").addClass("hidden");
-            }
-            versionNumber = $(ev.target).val();        
-            var scriptUrl;
-            if (versionNumber == 'latest') {
-                scriptUrl = "../../webapp/javascript/Wix.js";
-            }
-            else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
-            $.getScript(scriptUrl, function() {                     
-                $("#changeVersion").removeClass("hidden");                    
-                $("#versionText").text("SDK Version: " + versionNumber);
-                $("#version").addClass("hidden");
-                $("#resultContent").text("Script " + scriptUrl + " was loaded");
-                $("#sdkScript").attr("src", this.url);
-                displayFunctions();
+            $("#chooseVersion").click(ev, function(event) {
+                if ($("#resultContent").is(":visible")) {
+                    $("#resultContent").addClass("hidden");
+                }
+                versionNumber = $(event.data.originalEvent.target).val();
+                var scriptUrl;
+                if (versionNumber == 'latest') {
+                    scriptUrl = "../../webapp/javascript/Wix.js";
+                }
+                else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
+                $.getScript(scriptUrl, function() {                     
+                    $("#changeVersion").removeClass("hidden");                    
+                    $("#chooseVersion").addClass("hidden");
+                    $("#versionText").text("SDK Version: " + versionNumber);
+                    $("#version").addClass("hidden");
+                    $("#resultContent").text("Script " + scriptUrl + " was loaded");
+                    $("#sdkScript").attr("src", this.url);
+                    displayFunctions();
+                });
+                                            
             });
-                                        
         });
         
     
@@ -43,16 +46,16 @@
               
         
         function addFunctionToContainer(func) {   
-            var functionSection = '<hr/>' +
+            var functionSection = 
                 '<div class="row-fluid">' +
-                    '<a id="help' + func + '"' + 'href="http://dev.wix.com/display/wixdevelopersapi/JavaScript+SDK#JavaScriptSDK-' + func + '"' + 'target="_blank" style="color:#08C; margin-right:7px" class=pull-left><b>?</b></a>' +
+                    '<a id="help' + func + '"' + 'href="http://dev.wix.com/display/wixdevelopersapi/JavaScript+SDK#JavaScriptSDK-' + func + '"' + 'target="_blank" style="color:#08C; margin-right:13px" class=pull-left><b>?</b></a>' +
                     '<h4 id="funcName" class="pull-left">' + func + '</h4>' +
                     '<a id="enterParamsTo' + func + '"' + 'class="pull-right">Enter parameters</a>' +
                     '<button id="run' + func + '"' + 'class="btn btn-primary pull-right hidden">Run</button>' +
                     '<a id="change' + func + '"' + 'class="btn-link pull-right hidden" style="margin-right:10px">Change parameters</a>' +
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
-            '<hr/>'                        
+            '<hr size="10">'                        
             
             $("#functionsContainer").append(functionSection);
             //If the function doesn't have parameters or its parameters are already stored in the local storage, display run button only
