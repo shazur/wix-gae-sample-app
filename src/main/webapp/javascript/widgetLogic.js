@@ -35,7 +35,6 @@
             sdkFunctions.forEach(function(func){
                 addFunctionToContainer(func);
             });           
-            addListenersToRunButtons(sdkFunctions);
             addListenersToEnterParamsButtons(sdkFunctions);
             addListenersToChangeButtons(sdkFunctions);
         });
@@ -63,10 +62,13 @@
             
             $("#functionsContainer").append(functionSection);
             //If the function doesn't have parameters or its parameters are already stored in the local storage, display run button only
-            if (!getFuncParameters(func) || areFuncParamsSavedInLS(func)) {
+            var hasParameters = getFuncParameters(func);
+            if (!hasParameters || areFuncParamsSavedInLS(func)) {
                 $("#enterParamsTo" + func).addClass("hidden");
                 $("#run" + func).removeClass("hidden");
-                $("#change" + func).removeClass("hidden");
+                if (hasParameters) {
+                    $("#change" + func).removeClass("hidden");
+                }
             }
             else {
                 $("#enterParamsTo" + func).removeClass("hidden");
