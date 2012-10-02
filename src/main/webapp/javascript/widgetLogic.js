@@ -36,6 +36,7 @@
                 addFunctionToContainer(func);
             });           
             addListenersToEnterParamsButtons(sdkFunctions);
+            addListenersToRunButtons(sdkFunctions);
             addListenersToChangeButtons(sdkFunctions);
         });
         
@@ -55,7 +56,7 @@
                     '<div id="funcName" class="pull-left">' + func + '</div>' +
                     '<button id="enterParamsTo' + func + '"' + 'class="btn pull-right">Enter parameters</button>' +
                     '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>' +
-                    '<button id="change' + func + '"' + 'class="btn pull-right hidden">Change</button>' +
+                    '<button id="change' + func + '"' + 'class="btn pull-right hidden">Change parameters</button>' +
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
             '<hr/>'                        
@@ -78,12 +79,12 @@
         }
         
               
-        function addParameterToContainer(param) {
+        function addParameterToContainer(param, paramValue) {
                   var parameterSection = '<div class="row-fluid">' +
                     '<div id="funcName" class="pull-left">' + param + '</div>' +
                     '<input id="valueOf' + param + '"' + 'class="pull-right"></input>' +                                     
-                '</div></br>'
-            
+                    '<a id="lSValue' + param + '"' + 'class="pull-right hidden">' + paramValue + '</a>' +
+                '</div></br>'            
             
             $("#paramsContainer").append(parameterSection);
         }
@@ -166,13 +167,26 @@
                    
                     if (parameterList) {
                        parameterList.forEach(function(param){
-                            addParameterToContainer(param);                                                                         
+                           var parameterValue = getValueFromLocalStorage(func, param);
+                           addParameterToContainer(param, parameterValue);
+                           if (isFuncParamSavedInLS(func, param)) {
+                                $("#valueOf" + param).addClass("hidden");
+                                $("#lSValue" + param).removeClass("hidden");                                                               
+                           } else {
+                                $("#valueOf" + param).removeClass("hidden");
+                                $("#lSValue" + param).addClass("hidden");  
+                           }                            
                             $("#valueOf" + param).change(function(event) {
                                 var input = $(this).val();
                                 if (typeof(input) == 'Object') {
                                     input = JSON.parse(input);
                                 }
                                 data[versionNumber][func][param] = input;                                     
+                            });
+                            
+                            $("#lSValue" + param).click(function() {
+                                 $("#valueOf" + param).removeClass("hidden");
+                                $("#lSValue" + param).addClass("hidden");                          
                             });
                       
                         });  
@@ -186,6 +200,8 @@
                         $('#mask, .window').hide();
                        $("#paramsContainer").children().remove();                                
                     });
+                    
+                   
                     
                     
                     
