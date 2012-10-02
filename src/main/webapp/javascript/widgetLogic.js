@@ -50,9 +50,9 @@
                 '<div class="row-fluid">' +
                     '<a id="help' + func + '"' + 'href="http://dev.wix.com/display/wixdevelopersapi/JavaScript+SDK#JavaScriptSDK-' + func + '"' + 'target="_blank" style="color:#08C; margin-right:13px" class=pull-left><b>?</b></a>' +
                     '<h4 id="funcName" class="pull-left">' + func + '</h4>' +
-                    '<a id="enterParamsTo' + func + '"' + 'class="pull-right">Enter parameters</a>' +
-                    '<button id="run' + func + '"' + 'class="btn btn-primary pull-right hidden">Run</button>' +
-                    '<a id="change' + func + '"' + 'class="btn-link pull-right hidden" style="margin-right:10px">Change parameters</a>' +
+                    '<a id="enterParamsTo' + func + '"' + 'class="pull-right" href="">Enter parameters</a>' +
+                    '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>' +
+                    '<a id="change' + func + '"' + 'class="pull-right hidden" style="margin-right:10px" href="">Change parameters</a>' +
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
             '<hr size="10">'                        
