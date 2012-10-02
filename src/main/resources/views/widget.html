@@ -41,14 +41,13 @@
 
 <!-- #dialog is the id of a DIV defined in the code below -->
 <div id="#dialog" name="modal"></div>
-<div id="boxes">
-    <!-- #customize your modal window here -->
+<div id="boxes">   
     <div id="dialog" class="window" style="overflow:hidden">
     <div style="overflow:hidden">
         <div id="popupTitle" style="float:left"></div>
          <a href="#" class="close pull-right" style="float:right">X</a>
      </div></br>
-     <div id="paramsContainer" class="span4" style="max-height:300px; padding:20px; overflow-y:scroll"></div>       
+     <div id="paramsContainer" class="span4" style="max-height:300px; padding:20px; overflow-y:scroll overflow:hidden"></div>       
      <button id="save" class="btn">Save parameters</div>
         <!-- close button is defined as close class -->
     </div>
@@ -57,22 +56,20 @@
 </div>
 
 </br><div class="container-fluid" >
-    <!--<div id="appTitle" class="row-fluid">-->
-         <h3>API Test Application</h3>
+        <h3>API Test Application</h3>
         <div class="hero-unit" style="background-color:ghostwhite; box-shadow:#ccc 0 0 15px lavender; padding:35px">
         <div style="overflow:hidden">
             <div id="versionText" style="font-weight:bold; float:left">Enter SDK version</div>
-            <button id="changeVersion" class="hidden btn pull-right" style="float:right">Change Version</button>    
+            <button id="changeVersion" class="hidden btn btn-primary pull-right" style="float:right">Change Version</button>
         </div>
-        <input id="version" ></input>     
-    <!--</div>-->
+        <input id="version"></input>
 </div>
 
     <div class="container-fluid thumbnail"
          style="margin-bottom:20px; padding:20px; box-shadow:#ccc 0 0 15px lavender">      
             <div>
                 <h6 style="float:left">API functions</h6>
-                <a id="showFunctions" class="pull-right" style="float:right"><u>Show functions</u></a>
+                <!--<a id="showFunctions" class="pull-right" style="float:right"><u>Show functions</u></a>-->
             </div></br></br></br>          
             <div class="span4" id="functionsContainer" style="max-height:290px; padding:20px; overflow-y:scroll">
         </div>
@@ -83,9 +80,9 @@
         <div class="span4" id="smContainer">
             <h6>Console</h6>
             <hr/>
-            <div class="row-fluid" style="overflow-y:scroll">
+            <div class="row-fluid" style="overflow-y:scroll overflow:hidden">
                 <div id="result" class="pull-left">
-                    <div id="resultContent" style="max-height:180px"></div>               
+                    <div id="resultContent" style="max-height:200px"></div>               
                 </div>
             </div>            
         </div>

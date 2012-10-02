@@ -19,6 +19,7 @@
                 $("#version").addClass("hidden");
                 $("#resultContent").text("Script " + scriptUrl + " was loaded");
                 $("#sdkScript").attr("src", this.url);
+                displayFunctions();
             });
                                         
         });
@@ -30,7 +31,7 @@
         
             
         //Display SDK functions (according to the version)
-        $("#showFunctions").click(function() {
+        function displayFunctions(){
             var sdkFunctions = getAllMethods();
             sdkFunctions.forEach(function(func){
                 addFunctionToContainer(func);
@@ -38,25 +39,17 @@
             addListenersToEnterParamsButtons(sdkFunctions);
             addListenersToRunButtons(sdkFunctions);
             addListenersToChangeButtons(sdkFunctions);
-        });
-        
-        var parametersValueMap = {
-            latest: {
-                        addEventListener: {eventName: "Wix.Events.PAGE_NAVIGATION_CHANGE",
-                                            callBack: "function(data){$(\"#resultContent\").html(\"<pre>\" + JSON.stringify(data, null, '  ') + \"</pre>\")};"
-                                          },
-                        getSiteInfo:      {onSuccess: "function(data){$(\"#resultContent\").html(\"<pre>\" + JSON.stringify(data, null, '  ') + \"</pre>\")};"}                    
-                    }
-        }
-
+        };
+              
         
         function addFunctionToContainer(func) {   
             var functionSection = '<hr/>' +
                 '<div class="row-fluid">' +
-                    '<div id="funcName" class="pull-left">' + func + '</div>' +
-                    '<button id="enterParamsTo' + func + '"' + 'class="btn pull-right">Enter parameters</button>' +
-                    '<button id="run' + func + '"' + 'class="btn pull-right hidden">Run</button>' +
-                    '<button id="change' + func + '"' + 'class="btn pull-right hidden">Change parameters</button>' +
+                    '<a id="help' + func + '"' + 'href="http://dev.wix.com/display/wixdevelopersapi/JavaScript+SDK#JavaScriptSDK-' + func + '"' + 'target="_blank" style="color:#08C; margin-right:7px" class=pull-left><b>?</b></a>' +
+                    '<h4 id="funcName" class="pull-left">' + func + '</h4>' +
+                    '<a id="enterParamsTo' + func + '"' + 'class="pull-right">Enter parameters</a>' +
+                    '<button id="run' + func + '"' + 'class="btn btn-primary pull-right hidden">Run</button>' +
+                    '<a id="change' + func + '"' + 'class="btn-link pull-right hidden" style="margin-right:10px">Change parameters</a>' +
                     '<div id="result" class="hidden"></div>' +
                 '</div>' +
             '<hr/>'                        
@@ -102,14 +95,10 @@
                                         //get parameters from local storage
                                         var localStorageParams = JSON.parse(localStorage.getItem('parameters'));
                                         parameterStringValues[i] = localStorageParams[versionNumber][funcName][parameters[i]];
-                                    } else {                            
-                                        //get default parameters
-                                        if (parametersValueMap[funcName] && parametersValueMap[funcName][parameters[i]]) {
-                                            parameterStringValues[i] = parametersValueMap[versionNumber][funcName][parameters[i]];
-                                        }
-                                    }
+                                    } 
                                 }
                             }
+                        
                             //I should covert parameterValues to the correct type (currently all are strings)
                             var parameterValues = [];
                             parameterStringValues.forEach(function(value) {
@@ -118,7 +107,10 @@
                             var result = getFunctionByName(funcName, Wix).apply(Wix, parameterValues);                        
                             if (result) {
                                 $("#resultContent").text(result.toString());
+                            } else {
+                                $("#resultContent").text('');
                             }
+                            
                         }
                     });
                     
