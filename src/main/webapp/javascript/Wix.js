@@ -1,9 +1,9 @@
-//var version = js-sdk;
 (function (container) {
     var _w = {
         /**
          * Constants
          */
+        version: "__VERSION_NUMBER__",
 
         TPA_INTENT:"TPA",
         firstAddEventListenerCall:true,
@@ -41,7 +41,8 @@
 
         Events:{
             EDIT_MODE_CHANGE:[],
-            PAGE_NAVIGATION_CHANGE:[]
+            PAGE_NAVIGATION_CHANGE:[],
+            SITE_PUBLISHED: []
         },
 
         compId: null,
@@ -119,7 +120,12 @@
             return null;
         },
 
-         decodeBase64: function(str) {
+        getUrlQueryParameters: function() {
+            var url = location.search;
+            return url.substring(url.indexOf("?"));
+        },
+
+        decodeBase64: function(str) {
             var e={},i,k,v=[],r='',w=String.fromCharCode;
             var n=[[65,91],[97,123],[48,58],[43,44],[47,48]];
 
@@ -137,7 +143,9 @@
         },
 
         getVersion: function() {
-            var version = window.location.pathname.split('/')[3] || "unknown";
+
+            var version = _w.version != "__VERSION_NUMBER__" ? _w.version :
+                (window.location.pathname.split('/')[3] || "unknown");
 
             return version;
         },
@@ -175,14 +183,20 @@
 
         Events:{
             EDIT_MODE_CHANGE:'EDIT_MODE_CHANGE',
-            PAGE_NAVIGATION_CHANGE:'PAGE_NAVIGATION_CHANGE'
+            PAGE_NAVIGATION_CHANGE:'PAGE_NAVIGATION_CHANGE',
+            SITE_PUBLISHED: 'SITE_PUBLISHED'
         },
 
         Origin: _w.Origin,
 
+        currentEditMode: '',
+
         _init:function () {
             _w.compId = _w.getQueryParameter("compId") || "[UNKNOWN]";
             _w.sendMessageInternal(_w.MessageTypes.APP_IS_ALIVE); // Send isAlive message
+            this.addEventListener(this.Events.EDIT_MODE_CHANGE, function(params) {
+                this.currentEditMode = params.editMode;
+            });
         },
 
         Settings: {
@@ -220,7 +234,7 @@
             /**
              * @return for valid endpoints returns viewMode parameter value, otherwise returns null
              */
-            getViewNode: function(){
+            getViewMode: function(){
                 return _w.getQueryParameter("viewMode");
             },
 
@@ -256,7 +270,7 @@
              * @return for valid endpoints returns section-url parameter value, otherwise returns null
              */
             getSectionUrl: function(){
-                return _w.getQueryParameter("section-url");
+                return _w.getQueryParameter("section-url").slice(0, -1);
             },
 
             /**
@@ -452,12 +466,22 @@
          * event is sent from the wix site, The function signature should be :
          *  function callBack(param) {...}
          */
-        addEventListener:function (eventName, callBack) {
+        addEventListener: function(eventName, callBack) {
             var callbacks = _w.Events[eventName] || [];
             callbacks.push(callBack);
             if (_w.firstAddEventListenerCall) {
                 _w.addPostMessageCallback(_w.receiver.bind(_w));
                 _w.firstAddEventListenerCall = false;
+            }
+        },
+
+        navigateToState: function(innerState) {
+            if (this.currentEditMode == 'preview') {
+                if (event) {
+                    event.preventDefault();
+                }          
+                var newUrl = this.Utils.getSectionUrl() + innerState + _w.getUrlQueryParameters();
+                window.location = newUrl;
             }
         }
 

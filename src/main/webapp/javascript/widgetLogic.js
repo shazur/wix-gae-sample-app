@@ -14,7 +14,9 @@
                     scriptUrl = "../../webapp/javascript/Wix.js";
                 }
                 else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
+                var wasScriptLoaded = false;
                 $.getScript(scriptUrl, function() {                     
+                    wasScriptLoaded = true;
                     $("#changeVersion").removeClass("hidden");                    
                     $("#chooseVersion").addClass("hidden");
                     $("#versionText").text("SDK Version: " + versionNumber);
@@ -22,10 +24,15 @@
                     $("#resultContent").text("Script " + scriptUrl + " was loaded");
                     $("#sdkScript").attr("src", this.url);
                     displayFunctions();
-                });
+                })
+                if (!wasScriptLoaded) {
+                    $("#resultContent").text(scriptUrl + " does not exist");
+                }
+                    
+            });            
                                             
-            });
         });
+        
         
     
         $("#changeVersion").click(function() {   
@@ -33,12 +40,12 @@
         });               
         
             
-        //Display SDK functions (according to the version)
         function displayFunctions(){
             var sdkFunctions = getAllMethods();
             sdkFunctions.forEach(function(func){
                 addFunctionToContainer(func);
-            });           
+            });
+            
             addListenersToEnterParamsButtons(sdkFunctions);
             addListenersToRunButtons(sdkFunctions);
             addListenersToChangeButtons(sdkFunctions);
