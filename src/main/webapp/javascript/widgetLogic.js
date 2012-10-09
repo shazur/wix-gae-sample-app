@@ -14,9 +14,7 @@
                     scriptUrl = "../../webapp/javascript/Wix.js";
                 }
                 else scriptUrl = "//sslstatic.wix.com/services/js-sdk/" + versionNumber +"/js/Wix.js";
-                var wasScriptLoaded = false;
                 $.getScript(scriptUrl, function() {                     
-                    wasScriptLoaded = true;
                     $("#changeVersion").removeClass("hidden");                    
                     $("#chooseVersion").addClass("hidden");
                     $("#versionText").text("SDK Version: " + versionNumber);
@@ -25,10 +23,6 @@
                     $("#sdkScript").attr("src", this.url);
                     displayFunctions();
                 })
-                if (!wasScriptLoaded) {
-                    $("#resultContent").text(scriptUrl + " does not exist");
-                }
-                    
             });            
                                             
         });
